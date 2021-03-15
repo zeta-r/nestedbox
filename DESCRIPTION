@@ -1,18 +1,30 @@
 Package: nestedbox
-Title: Drow nested boxes for SusySafe examples
+Title: Draw nested boxes for SusySafe examples
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
+    c(
+      person(
+        given = "Corrado",
+        family = "Lanera",
+        role = c("aut", "cre", "cph"),
+        email = "corrado.lanera@zetaresearch.com",
+        comment = c(ORCID = "0000-0002-0520-7428"),
+      person(
+        given = "Zeta Research s.r.l.",
+        role = "cph")
+    )
 Description: Given a dataset of objects and a selected one, draw a
-  3D-plot with two boxes with the minimum and maximum measures from 
-  the objects distributions, and a _middle_ box with the selected 
-  object's measures (or the mean of the measures if multiple objects are
-  selected).
+    3D-plot with two boxes with the minimum and maximum measures from
+    the objects distributions, and a _middle_ box with the selected
+    object's measures (or the mean of the measures if multiple objects
+    are selected).
 License: file LICENSE
+Depends: 
+    R (>= 2.10)
+Suggests: 
+    here,
+    readr,
+    usethis
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
