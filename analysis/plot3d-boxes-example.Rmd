@@ -1,0 +1,93 @@
+---
+title: "Plot3d boxesexample"
+output: html_document
+---
+
+# Packages and setup
+
+```{r}
+if (requireNamespace("devtools", quietly = TRUE)) {
+  devtools::load_all()
+} else {
+  warning(
+    "Package {devtools} is not available.\n",
+    "You need to manually load functions from the project's `R/` folder.\n",
+    call. = FALSE
+  )
+}
+
+# plot 3d interface inside rmarkdown's HTMLs
+# https://bookdown.org/yihui/rmarkdown-cookbook/rgl-3d.html
+library(rgl)
+knitr::knit_hooks$set(webgl = hook_webgl)
+
+db <- get_sample_data()
+```
+
+# Data
+
+```{r}
+# Db used
+if (requireNamespace("DT", quietly = TRUE)) {
+  DT::datatable(db) 
+} else {
+  db
+}
+
+
+processed_db <- summarize_3d(db)
+processed_db
+```
+
+## Estract info
+
+```{r}
+main_object <- processed_db[c("dim_max", "dim_med", "dim_min")] %>% 
+  prepare_3d()
+main_object
+
+min_object <- processed_db[c("X_min", "Y_min", "Z_min")] %>% 
+  prepare_3d()
+min_object
+
+max_object <- processed_db[c("X_max", "Y_max", "Z_max")] %>% 
+  prepare_3d()
+max_object
+```
+
+# 3D Plot
+
+```{r, webgl=TRUE}
+{
+  rgl::plot3d(main_object,
+    type = "s",
+    col = "blue"
+  )
+  rgl::plot3d(min_object,
+    col = "green",
+    add = TRUE
+  )
+  rgl::plot3d(max_object,
+    col = "red",
+    add = TRUE
+  )
+}
+
+
+rgl::segments3d(main_object)
+```
+
+
+# System Info
+<details>
+  <summary>Click for System Info</summary>
+```{r, echo = FALSE}
+if (requireNamespace("devtools", quietly = TRUE)) {
+  devtools::session_info()
+} else {
+  Sys.info()
+  loadedNamespaces()
+}
+```
+<details>
+
