@@ -16,10 +16,7 @@ if (requireNamespace("devtools", quietly = TRUE)) {
   )
 }
 
-# plot 3d interface inside rmarkdown's HTMLs
-# https://bookdown.org/yihui/rmarkdown-cookbook/rgl-3d.html
-library(rgl)
-knitr::knit_hooks$set(webgl = hook_webgl)
+library(scatterplot3d)
 
 db <- get_sample_data()
 ```
@@ -58,23 +55,28 @@ max_object
 # 3D Plot
 
 ```{r, webgl=TRUE}
-{
-  rgl::plot3d(main_object,
-    type = "s",
-    col = "blue"
-  )
-  rgl::plot3d(min_object,
-    col = "green",
-    add = TRUE
-  )
-  rgl::plot3d(max_object,
-    col = "red",
-    add = TRUE
-  )
-}
+scr <- scatterplot3d::scatterplot3d(
+  max_object[[1]], max_object[[2]], max_object[[3]], 
+  color = "red",
+  xlab = "Largest dimension",
+  ylab = "Medial dimension",
+  zlab = "Smallest dimension",
+  asp = 1,
+  scale.y = max(max_object[[2]]) / max(max_object[[1]]),
+  type = "h"
+)
 
+scr$points3d(
+  main_object[[1]], main_object[[2]], main_object[[3]],
+  col = "blue")
+scr$points3d(
+  min_object[[1]], min_object[[2]], min_object[[3]],
+  col = "green")
 
-rgl::segments3d(main_object)
+title(
+  "Boxes of target and reference objects",
+  sub = "Points for target (blu), and largest (red) and smallest (green) in the category."
+)
 ```
 
 
