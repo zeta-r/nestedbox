@@ -1,13 +1,15 @@
-test_that("summarize_3d ask and return a tibble", {
+test_that("summarize_3d ask and return a data.frame", {
   sample_data <- get_sample_data()
-  expect_s3_class(summarize_3d(sample_data), "tbl_df")
+  expect_type(summarize_3d(sample_data), "list")
 })
 
 test_that("summarize_3d a single row", {
   sample_data <- get_sample_data()
   res <- summarize_3d(sample_data)
 
-  expect_equal(nrow(res), 1L)
+  expect_equal(length(res[[1]]), 1L)
+  expect_equal(length(res[[2]]), 1L)
+  expect_equal(length(res[[3]]), 1L)
 })
 
 test_that("summarize_3d mantain col name and class", {

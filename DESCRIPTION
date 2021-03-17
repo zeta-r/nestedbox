@@ -17,9 +17,7 @@ License: file LICENSE
 Depends: 
     R (>= 2.10)
 Imports: 
-    rgl,
-    dplyr,
-    tibble
+    rgl
 Suggests: 
     DT,
     autotestthat,

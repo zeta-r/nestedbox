@@ -4,17 +4,17 @@ test_that("prepare_3d accept a single row 3 column db", {
 
   res <- prepare_3d(summarized_data[1:3])
 
-  expect_error(prepare_3d(sample_data), "must have a single row")
-  expect_error(prepare_3d(summarized_data), "must have three columns")
+  expect_error(prepare_3d(sample_data), ".*length.*db.* == 1L.*")
+  expect_error(prepare_3d(summarized_data), ".*length.* == 3L.*")
 
   expect_named(res, c("x", "y", "z"))
 })
 
-test_that("prepare_3d returns a tibble", {
+test_that("prepare_3d returns a data.frame", {
   sample_data <- get_sample_data()
   summarized_data <- summarize_3d(sample_data)[1:3]
 
-  expect_s3_class(prepare_3d(summarized_data), "tbl_df")
+  expect_s3_class(prepare_3d(summarized_data), "data.frame")
 })
 
 test_that("prepare_3d returns 8 rows", {
