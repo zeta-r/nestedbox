@@ -5,6 +5,8 @@ stopifnot(requireNamespace("readr", quietly = TRUE))
 stopifnot(requireNamespace("usethis", quietly = TRUE))
 
 
-dataset_ex <- readr::read_csv(here::here("data-raw", "dataset_ex.csv"))
+sample_data <- readr::read_csv(here::here("data-raw", "dataset_ex.csv"))
 
-usethis::use_data(dataset_ex, overwrite = TRUE)
+saveRDS(sample_data,
+        file = here::here("inst", "testing-data", "dataset_ex.rds")
+)
