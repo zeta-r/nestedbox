@@ -39,42 +39,64 @@ processed_db
 ## Estract info
 
 ```{r}
-purrr::walk(1:1e4, ~{
 processed_db <- summarize_3d(db)
-main_object <- processed_db[c("dim_max", "dim_med", "dim_min")] %>% 
-  prepare_3d()
-# main_object
 
-min_object <- processed_db[c("X_min", "Y_min", "Z_min")] %>% 
-  prepare_3d()
-# min_object
+min_object <- prepare_3d(
+  processed_db[c("X_min", "Y_min", "Z_min")]
+)
+min_object
 
-max_object <- processed_db[c("X_max", "Y_max", "Z_max")] %>% 
-  prepare_3d()
-})
-# max_object
+main_object <- prepare_3d(
+  processed_db[c("dim_max", "dim_med", "dim_min")]
+)
+  
+main_object
+
+max_object <- prepare_3d(
+  processed_db[c("X_max", "Y_max", "Z_max")]
+)
+max_object
 ```
 
 # 3D Plot
 
 ```{r, webgl=TRUE}
+segments <- list(
+  a = c("A", "B"),
+  b = c("B", "D"),
+  c = c("D", "C"),
+  d = c("C", "A"),
+  e = c("E", "F"),
+  f = c("F", "H"),
+  g = c("H", "G"),
+  h = c("G", "E"),
+  i = c("A", "E"),
+  j = c("B", "F"),
+  k = c("C", "G"),
+  l = c("D", "H")
+)
+
 scr <- scatterplot3d::scatterplot3d(
-  max_object[[1]], max_object[[2]], max_object[[3]], 
+  x = max_object[[1]],
+  y = max_object[[2]],
+  z = max_object[[3]], 
   color = "red",
   xlab = "Largest dimension",
   ylab = "Medial dimension",
   zlab = "Smallest dimension",
   asp = 1,
   scale.y = max(max_object[[2]]) / max(max_object[[1]]),
-  type = "h"
+  box = FALSE,
+  type = "n"
 )
 
-scr$points3d(
-  main_object[[1]], main_object[[2]], main_object[[3]],
-  col = "blue")
-scr$points3d(
-  min_object[[1]], min_object[[2]], min_object[[3]],
-  col = "green")
+for (segment in segments) {
+  add_segment(scr, max_object, segment, "red")
+  add_segment(scr, main_object, segment, "blue")
+  add_segment(scr, min_object, segment, "green")  
+}
+
+
 
 title(
   "Boxes of target and reference objects",

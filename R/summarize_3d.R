@@ -1,6 +1,13 @@
 summarize_3d <- function(db) {
 
-  stopifnot(inherits(db, "data.frame"))
+  stopifnot(
+    inherits(db, "data.frame"),
+    names(db) == c(
+      "dim_max", "dim_min", "dim_med",
+      "X_min", "Y_min", "Z_min",
+      "X_max", "Y_max", "Z_max")
+  )
+
   db <- unclass(db)
 
   dim_max = mean(db[["dim_max"]], na.rm = TRUE)
